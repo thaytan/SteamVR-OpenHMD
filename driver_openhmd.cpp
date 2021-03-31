@@ -331,10 +331,21 @@ public:
               vr::VRDriverInput()->CreateScalarComponent( m_ulPropertyContainer, control_map, m_analogControls + i, VRScalarType_Absolute, analog_type);
             }
           }
-	  if (touch_map != NULL) {
+          if (touch_map != NULL) {
               vr::VRDriverInput()->CreateScalarComponent( m_ulPropertyContainer, touch_map, m_touchControls + i, VRScalarType_Absolute, analog_type);
           }
         }
+
+#ifdef OHMD_HAVE_HAPTICS_API_v0
+        if (device_flags & OHMD_DEVICE_FLAGS_HAPTIC_FEEDBACK) {
+          vr::VRDriverInput()->CreateHapticComponent( m_ulPropertyContainer, "/output/haptic", &m_hapticControl);
+        }
+        else {
+          m_hapticControl = k_ulInvalidInputComponentHandle;
+        }
+#else
+        m_hapticControl = k_ulInvalidInputComponentHandle;
+#endif
 
         return VRInitError_None;
     }
@@ -459,8 +470,21 @@ public:
     return controllerstate;
     }
 
-    bool TriggerHapticPulse( uint32_t unAxisId, uint16_t usPulseDurationMicroseconds ) {
-        return false;
+    void ProcessEvent( const vr::VREvent_t & vrEvent )
+    {
+            switch ( vrEvent.eventType )
+            {
+            case vr::VREvent_Input_HapticVibration:
+            {
+#ifdef OHMD_HAVE_HAPTICS_API_v0
+                    if ( vrEvent.data.hapticVibration.componentHandle == m_hapticControl )
+                    {
+                            ohmd_device_set_haptics_on(device, vrEvent.data.hapticVibration.fDurationSeconds, vrEvent.data.hapticVibration.fFrequency, vrEvent.data.hapticVibration.fAmplitude);
+                    }
+#endif
+            }
+            break;
+            }
     }
 
     std::string GetSerialNumber() const { 
@@ -480,6 +504,8 @@ private:
     vr::VRInputComponentHandle_t m_analogControls[64]; /* Maximum components we support */
     /* Touch controls */
     vr::VRInputComponentHandle_t m_touchControls[64]; /* Maximum components we support */
+    /* Haptic feedback control, if present */
+    vr::VRInputComponentHandle_t m_hapticControl;
 };
 
 class COpenHMDDeviceDriver final : public vr::ITrackedDeviceServerDriver, public vr::IVRDisplayComponent
@@ -1160,6 +1186,16 @@ void CServerDriver_OpenHMD::RunFrame()
         m_OpenHMDDeviceDriverControllerL->RunFrame();
     if (m_OpenHMDDeviceDriverControllerR)
         m_OpenHMDDeviceDriverControllerR->RunFrame();
+
+    vr::VREvent_t vrEvent;
+    while ( vr::VRServerDriverHost()->PollNextEvent( &vrEvent, sizeof( vrEvent ) ) )
+    {
+        if (m_OpenHMDDeviceDriverControllerL)
+            m_OpenHMDDeviceDriverControllerL->ProcessEvent( vrEvent );
+        if (m_OpenHMDDeviceDriverControllerR)
+            m_OpenHMDDeviceDriverControllerR->ProcessEvent( vrEvent );
+    }
+
 }
 
 //-----------------------------------------------------------------------------
