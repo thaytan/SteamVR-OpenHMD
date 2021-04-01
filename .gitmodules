@@ -1,3 +1,4 @@
 [submodule "external/openhmd"]
 	path = subprojects/openhmd
-	url = https://github.com/OpenHMD/OpenHMD.git
+	url = https://github.com/thaytan/OpenHMD.git
+	branch = rift-haptics
