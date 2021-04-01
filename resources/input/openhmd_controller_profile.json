@@ -80,6 +80,10 @@
 			"value" : true,
                         "order": 4
                 },
+                "/output/haptic" : {
+                        "type" : "vibration",
+                        "binding_image_point" : [ 72, 39 ]
+                },
                 "/pose/raw": {
                         "type": "pose",
                         "binding_image_point": [124, 96]

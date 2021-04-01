@@ -14,6 +14,16 @@
                "path" : "/user/hand/right/pose/raw"
             }
          ],
+	 "haptics" : [
+            {
+               "output" : "/actions/lasermouse/out/haptic",
+               "path" : "/user/hand/left/output/haptic"
+            },
+            {
+               "output" : "/actions/lasermouse/out/haptic",
+               "path" : "/user/hand/right/output/haptic"
+            }
+         ],
          "sources" : [
             {
                "inputs" : {
@@ -22,6 +32,10 @@
                   }
                },
                "mode" : "button",
+	       "parameters" : {
+                  "click_activate_threshold" : "0.65",
+                  "click_deactivate_threshold" : "0.6"
+               },
                "path" : "/user/hand/right/input/trigger"
             },
             {
@@ -31,6 +45,38 @@
                   }
                },
                "mode" : "button",
+	       "parameters" : {
+                  "click_activate_threshold" : "0.65",
+                  "click_deactivate_threshold" : "0.6"
+               },
+               "path" : "/user/hand/left/input/trigger"
+            },
+	    {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/lasermouse/in/LockMousePosition"
+                  }
+               },
+               "mode" : "button",
+               "parameters" : {
+                  "click_activate_threshold" : "0.1",
+                  "click_deactivate_threshold" : "0.05",
+                  "haptic_amplitude" : "0"
+               },
+               "path" : "/user/hand/right/input/trigger"
+            },
+	                {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/lasermouse/in/LockMousePosition"
+                  }
+               },
+               "mode" : "button",
+               "parameters" : {
+                  "click_activate_threshold" : "0.1",
+                  "click_deactivate_threshold" : "0.05",
+                  "haptic_amplitude" : "0"
+               },
                "path" : "/user/hand/left/input/trigger"
             }
          ]
