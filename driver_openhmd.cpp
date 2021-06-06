@@ -403,6 +403,20 @@ public:
 		pose.vecPosition[0] = pos[0];
 		pose.vecPosition[1] = pos[1];
 		pose.vecPosition[2] = pos[2];
+
+#ifdef OHMD_HAVE_VEL_ACCEL_API_v0
+		float vel[3], accel[3];
+		if (ohmd_device_getf(device, OHMD_VELOCITY_VECTOR, vel) == 0) {
+			pose.vecVelocity[0] = vel[0];
+			pose.vecVelocity[1] = vel[1];
+			pose.vecVelocity[2] = vel[2];
+		}
+		if (ohmd_device_getf(device, OHMD_ACCELERATION_VECTOR, accel) == 0) {
+			pose.vecAcceleration[0] = accel[0];
+			pose.vecAcceleration[1] = accel[1];
+			pose.vecAcceleration[2] = accel[2];
+		}
+#endif
 	}
 
 	// DriverLog("get controller %d pose %f %f %f %f, %f %f %f\n", index, quat[0], quat[1], quat[2], quat[3], pos[0], pos[1], pos[2]);
@@ -1003,6 +1017,20 @@ public:
         pose.vecPosition[0] = pos[0];
         pose.vecPosition[1] = pos[1];
         pose.vecPosition[2] = pos[2];
+
+#ifdef OHMD_HAVE_VEL_ACCEL_API_v0
+	float vel[3], accel[3];
+	if (ohmd_device_getf(d, OHMD_VELOCITY_VECTOR, vel) == 0) {
+		pose.vecVelocity[0] = vel[0];
+		pose.vecVelocity[1] = vel[1];
+		pose.vecVelocity[2] = vel[2];
+	}
+	if (ohmd_device_getf(d, OHMD_ACCELERATION_VECTOR, accel) == 0) {
+		pose.vecAcceleration[0] = accel[0];
+		pose.vecAcceleration[1] = accel[1];
+		pose.vecAcceleration[2] = accel[2];
+	}
+#endif
 
         //printf("%f %f %f %f  %f %f %f\n", quat[0], quat[1], quat[2], quat[3], pos[0], pos[1], pos[2]);
         //fflush(stdout);
