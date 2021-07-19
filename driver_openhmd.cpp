@@ -417,6 +417,14 @@ public:
 			pose.vecAcceleration[2] = accel[2];
 		}
 #endif
+#ifdef OHMD_HAVE_VEL_ACCEL_API_v1
+		float ang_vel[3];
+		if (ohmd_device_getf(device, OHMD_ANGULAR_VELOCITY_VECTOR, ang_vel) == 0) {
+			pose.vecAngularVelocity[0] = ang_vel[0];
+			pose.vecAngularVelocity[1] = ang_vel[1];
+			pose.vecAngularVelocity[2] = ang_vel[2];
+		}
+#endif
 	}
 
 	// DriverLog("get controller %d pose %f %f %f %f, %f %f %f\n", index, quat[0], quat[1], quat[2], quat[3], pos[0], pos[1], pos[2]);
