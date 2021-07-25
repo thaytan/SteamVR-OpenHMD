@@ -439,8 +439,6 @@ public:
 
 		pose.qDriverFromHeadRotation = oculusOffsetQ;
 		pose.qWorldFromDriverRotation = identityquat;
-
-		pose.vecDriverFromHeadTranslation[2] = 0.08;
 	}
 	else {
 		pose.qDriverFromHeadRotation = identityquat;
