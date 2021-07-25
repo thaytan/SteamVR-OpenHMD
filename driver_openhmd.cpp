@@ -395,6 +395,15 @@ public:
 		pose.qRotation.y = quat[1];
 		pose.qRotation.z = quat[2];
 		pose.qRotation.w = quat[3];
+
+#ifdef OHMD_HAVE_VEL_ACCEL_API_v1
+		float ang_vel[3], ang_accel[3];
+		if (ohmd_device_getf(device, OHMD_ANGULAR_VELOCITY_VECTOR, ang_vel) == 0) {
+			pose.vecAngularVelocity[0] = ang_vel[0];
+			pose.vecAngularVelocity[1] = ang_vel[1];
+			pose.vecAngularVelocity[2] = ang_vel[2];
+		}
+#endif
 	}
 
 	if (device_flags & OHMD_DEVICE_FLAGS_POSITIONAL_TRACKING) {
@@ -415,14 +424,6 @@ public:
 			pose.vecAcceleration[0] = accel[0];
 			pose.vecAcceleration[1] = accel[1];
 			pose.vecAcceleration[2] = accel[2];
-		}
-#endif
-#ifdef OHMD_HAVE_VEL_ACCEL_API_v1
-		float ang_vel[3];
-		if (ohmd_device_getf(device, OHMD_ANGULAR_VELOCITY_VECTOR, ang_vel) == 0) {
-			pose.vecAngularVelocity[0] = ang_vel[0];
-			pose.vecAngularVelocity[1] = ang_vel[1];
-			pose.vecAngularVelocity[2] = ang_vel[2];
 		}
 #endif
 	}
