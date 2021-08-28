@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DIR=$(dirname "$(readlink -f "$0")")
+OUTPUT_DIR="$DIR"/driver_openhmd
 
 source "$DIR"/paths.sh
 
@@ -27,6 +28,8 @@ if [ ! -d "$DIR"/build ]; then
 	exit 1
 fi
 
+"$DIR/install_files_to_build.sh" || exit 1
+
 if [ ! -f "$VRPATHREG" ]; then
 	echo "Please install SteamVR such that $VRPATHREG exists"
 	exit 1
@@ -44,5 +47,5 @@ cp "$OHMDCONFIG" "$CURRENTCONFIG"
 echo "Installed SteamVR-OpenHMD config"
 
 echo "Registering SteamVR-OpenHMD plugin with SteamVR..."
-LD_LIBRARY_PATH="$OPENVR_API_PATH:$LD_LIBRARY_PATH" "$VRPATHREG" adddriver "$DIR"/build
+LD_LIBRARY_PATH="$OPENVR_API_PATH:$LD_LIBRARY_PATH" "$VRPATHREG" adddriver "$OUTPUT_DIR"
 echo "Registered SteamVR-OpenHMD plugin with SteamVR!"
