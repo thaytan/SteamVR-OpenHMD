@@ -11,20 +11,19 @@ sources = [
 	'driver_openhmd.cpp'
 ]
 
-includes = include_directories(['./subprojects/openhmd/include', './subprojects/openvr'])
+includes = include_directories(['./subprojects/openvr'])
 
 openhmd_subproject = subproject('openhmd', default_options: ['default_library=static'])
-openhmd_lib = openhmd_subproject.get_variable('openhmd_lib')
 
 deps = [
-	dependency('threads')
+	dependency('threads'),
+	dependency('openhmd', fallback : ['openhmd', 'openhmd_dep'])
 ]
 
 steamvr_openhmd_lib = library(
 	'driver_openhmd', sources,
 	include_directories : includes,
 	dependencies : deps,
-	link_with: openhmd_lib,
 	install : true,
 	version : meson.project_version(),
 	name_prefix : ''
