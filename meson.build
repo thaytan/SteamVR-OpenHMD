@@ -64,7 +64,8 @@ plugin_dest_dir = os.path.join(output_dir, sys.argv[5])
 plugin_dest_file = os.path.join(plugin_dest_dir, sys.argv[6])
 
 os.makedirs(plugin_dest_dir, exist_ok=True)
-os.remove(plugin_dest_file) # unlink dll first
+if os.path.exists(plugin_dest_file):
+  os.remove(plugin_dest_file) # unlink dll first
 shutil.copy(sys.argv[2], plugin_dest_file)
 # Copy manifest and resources
 shutil.copy(os.path.join(source_dir, 'driver.vrdrivermanifest'), os.path.join(output_dir, 'driver.vrdrivermanifest'))
