@@ -1,6 +1,6 @@
 project(
 	'steamvr-openhmd', 'cpp',
-	default_options : 'cpp_std=c++11',
+  default_options : ['cpp_std=c++11', 'buildtype=release'],
 	version : '0.0.1',
 	meson_version:  '>=0.54'
 )
