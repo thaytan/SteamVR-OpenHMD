@@ -1,4 +1,5 @@
 [submodule "subprojects/openhmd"]
 	path = subprojects/openhmd
 	url = https://github.com/thaytan/OpenHMD.git
+[submodule "subprojects/openhmd/"]
 	branch = rift-kalman-filter
