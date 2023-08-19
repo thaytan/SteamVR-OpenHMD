@@ -2,10 +2,10 @@
 
 DIR=$(dirname "$(readlink -f "$0")")
 
-if [ -d "$HOME"/.local/share/Steam ]
+if [ -d "$HOME"/.local/share/Steam/steamapps ] || [ -d "$HOME"/.local/share/Steam/SteamApps ]
 then
 	STEAMDIR="$HOME"/.local/share/Steam/
-elif [ -d "$HOME"/.steam/steam ]
+elif [ -d "$HOME"/.steam/steam/steamapps ] || [ -d "$HOME"/.steam/steam/SteamApps ]
 then
 	STEAMDIR="$HOME"/.steam/steam
 fi
